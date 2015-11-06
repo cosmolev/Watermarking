@@ -1,0 +1,46 @@
+<div class="container">
+<form action="@routes.Application.newDocument()" method="POST" id="formid">
+
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" value="" />
+    </div>
+
+    <div class="form-group">
+      <label for="author">Author</label>
+      <input type="text" id="author" name="author" value="" />
+    </div>
+
+    <div class="form-group">
+      <label for="content">Content</label>
+        <select id="content" name="content" >
+          <option value="book" selected>book</option>
+          <option value="journal">journal</option>
+        </select>
+    </div>
+
+    <div class="form-group" id="divtopic">
+      <label for="topic">Topic</label>
+      <input type="text" id="topic" name="topic" value="" />
+    </div>
+
+
+  <input type="submit" value="Add new document" class="btn btn-primary">
+</form>
+</div>
+<script>
+  $( "#content" ).change(function() {
+    if($( "#content" ).val() === "book"){
+      $( "#divtopic" ).show()
+    } else if($( "#content" ).val() === "journal"){
+      $( "#divtopic" ).hide()
+    }
+  });
+
+  $('#formid').submit(function() {
+    if ($.trim($("#title").val()) === "" || $.trim($("#author").val()) === "" || ($.trim($("#topic").val()) === "" && ($( "#content" ).val() === "book"))  ) {
+      alert('you did not fill out one of the fields');
+      return false;
+    }
+  });
+</script>
