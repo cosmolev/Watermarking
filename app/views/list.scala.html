@@ -27,6 +27,10 @@
   </table>
   @if(flash.get("createdId")) {
     The document has been queued for watermarking. You can <a class="btn btn-default" target="_blank" href="@routes.Application.showDocument(flash.get("createdId").map(_.toInt).getOrElse(-1))">check the status</a> or just <a class="btn btn-default" href="@routes.Application.list"><span class="glyphicon glyphicon-refresh"></span> refresh</a> the whole list.
+  } else {
+    @if(flash.get("error")){
+      @flash.get("error")
+    }
   }
   @form()
 }

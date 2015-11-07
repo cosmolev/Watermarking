@@ -25,11 +25,17 @@ class Application extends Controller {
       case _ => null
     }
 
-    val id :Int = Doc.createDocument(content,title,author,Option(topic))
-    Akka.system.scheduler.scheduleOnce(10.seconds) {
-      Doc.setWatermark(id, md5(Doc.findById(id)) )
+    try {
+      val id :Int = Doc.createDocument(content,title,author,Option(topic))
+      Akka.system.scheduler.scheduleOnce(10.seconds) {
+        Doc.setWatermark(id, md5(Doc.findById(id)) )
+      }
+      Redirect(routes.Application.list()).flashing("createdId" -> id.toString)
+    } catch {case e: Exception =>
+      Redirect(routes.Application.list()).flashing("error" -> "An error occured.")
     }
-    Redirect(routes.Application.list()).flashing("createdId" -> id.toString)
+
+
   }
 
   def showDocument(id: Int) = Action {

@@ -6,11 +6,12 @@ set ignorecase true;
 
 create table document (
   id                        bigint not null,
-  content                      varchar(255) not null,
+  content                      varchar(7) not null,
   title                      varchar(255) not null,
   author                      varchar(255) not null,
-  watermark                      varchar(255),
+  watermark                      varchar(32),
   topic                      varchar(255),
+  constraint ck_document_content check (content in ('book','journal')),
   constraint pk_company primary key (id))
 ;
 
