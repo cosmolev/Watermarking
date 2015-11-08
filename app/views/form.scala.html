@@ -25,15 +25,18 @@
     </div>
 
 
-  <input type="submit" value="Add new document" class="btn btn-primary">
+  <input type="submit" value="Add new book" class="btn btn-primary">
 </form>
 </div>
 <script>
   $( "#content" ).change(function() {
+  var submit = $( "#formid" ).closest('form').find(':submit');
     if($( "#content" ).val() === "book"){
       $( "#divtopic" ).show()
+      submit.val('Add new book')
     } else if($( "#content" ).val() === "journal"){
       $( "#divtopic" ).hide()
+      submit.val('Add new journal')
     }
   });
 
