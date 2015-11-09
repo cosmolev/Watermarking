@@ -4,7 +4,7 @@ import models.Doc.{documentWrites,md5}
 import models._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Json
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{Request, AnyContent, Action, Controller}
 import play.libs.Akka
 import views._
 
@@ -16,12 +16,14 @@ class Application extends Controller {
     Ok(html.list(Doc.findAll()))
   }
 
+  def getParam(key : String, request : Request[AnyContent]): String = request.body.asFormUrlEncoded.get.get(key).head.head
+
   def newDocument() = Action {request =>
-    val title = request.body.asFormUrlEncoded.get.get("title").head.head
-    val author = request.body.asFormUrlEncoded.get.get("author").head.head
-    val content = request.body.asFormUrlEncoded.get.get("content").head.head
+    val title = getParam("title",request)
+    val author = getParam("author",request)
+    val content = getParam("content",request)
     val topic = content match {
-      case "book" => request.body.asFormUrlEncoded.get.get("topic").head.head
+      case "book" => getParam("topic",request)
       case _ => null
     }
 
